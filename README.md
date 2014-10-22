@@ -1,4 +1,4 @@
 adkwetlands
 ===========
 
-Monitoring Climate Change Adirondack Boreal Wetlands
+Monitoring Climate Change in Adirondack Boreal Wetlands
