@@ -53,7 +53,7 @@ $("#sidebar-hide-btn").click(function() {
 function sidebarClick(id) {
   map.addLayer(birdLayer).addLayer(amphibianLayer);
   var layer = markerClusters.getLayer(id);
-  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 16);
+  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 18);
   layer.fire("click");
   /* Hide sidebar and go to the map on small screens */
   if (document.body.clientWidth <= 767) {
@@ -229,8 +229,7 @@ $.getJSON("data/observationamphibian.geojson", function (data) {
 
 map = L.map("map", {
   zoom: 10,
-  maxZoom: 16,
-  //center: [40.702222, -73.979378],
+  center: [40.702222, -73.979378],
   layers: [mapquestHYB, site, markerClusters, highlight],
   zoomControl: false,
   attributionControl: false
@@ -330,13 +329,17 @@ var baseLayers = {
   "Imagery with Streets": mapquestHYB
 };
 
-var overlays = {
+var groupedOverlays = {
+  "Points of Interest": {
     "<img src='assets/img/bird.png' width='24' height='28'>&nbsp;Bird Surveys": birdLayer,
-    "<img src='assets/img/amphibian.png' width='24' height='28'>&nbsp;Amphibian Surveys": amphibianLayer,
-    "<img src='assets/img/site.png' width='24' height='28'>&nbsp;Survey Sites": site
+    "<img src='assets/img/amphibian.png' width='24' height='28'>&nbsp;Amphibian Surveys": amphibianLayer
+  },
+  "Reference": {
+    "Survey Sites": site
+  }
 };
 
-var layerControl = L.control.layers(baseLayers, overlays, {
+var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, {
   collapsed: isCollapsed
 }).addTo(map);
 
