@@ -100,7 +100,7 @@ var site = new L.GeoJSON(null, {
     onEachFeature: function (feature, layer) {
 
                 //console.log(feature.geometry.coordinates[0][0])
-                layer.bindPopup("<strong>" + feature.properties.name + "</strong><br>" + "NHP ID:" + feature.properties.surveysite_id +"<br> Survey Date: " + feature.properties.surveydate + "<br><i>" + feature.properties.strcomment ,  {
+                layer.bindPopup("<strong>" + feature.properties.name + "</strong><br>" + "NHP ID:" + feature.properties.surveysite_id +"<br> Survey Date: " + feature.properties.surveydate + "<br><i>" + feature.properties.strcomment + "<br><a href='#' onclick='map.setView([" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "], 15);'>Zoom to site</a>" , {
                     closeButton: true
 
         })
@@ -149,8 +149,8 @@ var birds = L.geoJson(null, {
                     closeButton: true
 
         })
-/*      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.name + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.observer + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.lat + "</td></tr>" + "<tr></tr>" + "<table>";
-      layer.on({
+     var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.name + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.observer + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.lat + "</td></tr>" + "<tr></tr>" + "<table>";
+      /*layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.name);
           $("#feature-info").html(content);
@@ -197,8 +197,12 @@ var amphibians = L.geoJson(null, {
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
+      layer.bindPopup("<strong>Bird Survey: " + feature.properties.date + "</strong><br>" + feature.properties.time_start + "-" + feature.properties.time_start + "<br> Temp: " + feature.properties.temp_f + "<br><i>Observer: " + feature.properties.observer ,  {
+                    closeButton: true
+
+        })
       var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.name + "</td></tr>" + "<tr><th>Point</th><td>" + feature.properties.point_number + "</td></tr>" + "<tr><th>Date</th><td>" + feature.properties.date + "</td></tr>" + "<tr><th>Observer</th><td>" + feature.properties.observer + "</a></td></tr>" + "<table>";
-      layer.on({
+/*      layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.name);
           $("#feature-info").html(content);
@@ -210,7 +214,7 @@ var amphibians = L.geoJson(null, {
             radius: 10
           }));
         }
-      });
+      });*/
       $("#feature-list tbody").append('<tr class="feature-row" id="'+L.stamp(layer)+'"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/amphibian.png"></td><td class="feature-name">'+ layer.feature.properties.name + ', Pt. ' + layer.feature.properties.point_number +'<br>' + layer.feature.properties.date +'</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       amphibianSearch.push({
         name: layer.feature.properties.name,
@@ -225,10 +229,12 @@ var amphibians = L.geoJson(null, {
 });
 $.getJSON("data/observationamphibian.geojson", function (data) {
   amphibians.addData(data);
+  map.addLayer(amphibianLayer)
 });
 
 map = L.map("map", {
   zoom: 10,
+  maxZoom:18,
   center: [40.702222, -73.979378],
   layers: [mapquestHYB, site, markerClusters, highlight],
   zoomControl: false,
@@ -330,7 +336,7 @@ var baseLayers = {
 };
 
 var groupedOverlays = {
-  "Points of Interest": {
+  "Survey Types": {
     "<img src='assets/img/bird.png' width='24' height='28'>&nbsp;Bird Surveys": birdLayer,
     "<img src='assets/img/amphibian.png' width='24' height='28'>&nbsp;Amphibian Surveys": amphibianLayer
   },
