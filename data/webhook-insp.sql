@@ -1,0 +1,1 @@
+INSERT INTO adkwetlands.adk_wetlands4_0 (fulcrum_id, longitude,latitude, surveysite, nhp_uid) VALUES ($$cbf9dfb5-5443-414a-942a-d1af569c5e12$$,$$-73.389315605164$$,$$44.182319366691$$,$$test$$, $$666$$);
